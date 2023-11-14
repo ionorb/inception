@@ -1,5 +1,18 @@
+# Whitelist Setup
 *
 !*/
 
+# Whitelist Files
 !.gitignore
+!.dockerignore
+!Dockerfile
+!Makefile
+
+# Whitelist Directories
 !resources/**
+!**/wordpress/**
+!**/nginx/**
+!**/mariadb/**
+
+# Blacklist
+.env
