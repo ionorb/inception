@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    volumes:
+      - wordpress-volume:/path/to/location
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    volumes:
+      - mariadb-volume:/path/to/location
+
+volumes:
+
+  wordpress-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/yridgway/data
+      o: bind
+
+  mariadb-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/yridgway/data
+      o: bind
