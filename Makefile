@@ -17,4 +17,7 @@ down:
 logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
 
-.PHONY: all build up down logs
+ssl-gen:
+	openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=yridgway.42.fr/UID=yridgway"
+
+.PHONY: all build up down logs ssl-gen
