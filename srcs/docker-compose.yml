@@ -2,10 +2,13 @@ version: '3.8'
 
 services:
   nginx:
+    build: ./requirements/nginx
     container_name: nginx
-    image: nginx
+    # image: nginx
     networks:
       - netyworky
+    ports:
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./certs:/etc/nginx/certs
@@ -14,8 +17,9 @@ services:
       - .env
 
   wordpress:
+    build: ./requirements/wordpress
     container_name: wordpress
-    image: wordpress
+    # image: wordpress
     networks:
       - netyworky
     volumes:
@@ -25,8 +29,9 @@ services:
       - .env
 
   mariadb:
+    build: ./requirements/mariadb
     container_name: mariadb
-    image: mariadb
+    # image: mariadb
     networks:
       - netyworky
     volumes:
