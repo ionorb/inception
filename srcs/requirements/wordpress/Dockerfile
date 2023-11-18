@@ -4,10 +4,6 @@ FROM	debian:bullseye
 # Expose php-fpm default port
 EXPOSE	9000
 
-# Create the directory for the php-fpm socket and enable php start
-RUN		mkdir -p /var/www/html/ && \
-		mkdir -p /run/php && \
-		chmod -R 755 /var/www/html/
 
 # Update & Install necessary packages
 RUN		apt-get update && apt-get install -y \
@@ -24,6 +20,14 @@ RUN		apt-get update && apt-get install -y \
 		default-mysql-server \
 		mariadb-client
 
+# Create directories for the php-fpm and server
+# give the nginx user (www-data) the ownership and permissions
+# ...to read and execute files within the web directory
+RUN		mkdir -p /var/www/html/ && \
+		mkdir -p /run/php && \
+		chown -R www-data:www-data /var/www/* \
+		&& chmod -R 755 /var/www/*
+
 # Download and extract WordPress
 RUN		wget https://wordpress.org/latest.tar.gz && \
 		tar -xvzf latest.tar.gz && \
@@ -38,11 +42,6 @@ RUN		wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.p
 
 # Copy the php-fpm config file in the html directory
 COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-
-# give the nginx user (www-data) the necessary permissions
-# ...to read and execute files within the web root directory
-RUN		chown -R www-data:www-data /var/www/* \
-		&& chmod -R 755 /var/www/*
 
 # copy wordpress script to /bin/ on container filesystem
 COPY	./tools/wp-script.sh  /bin/
