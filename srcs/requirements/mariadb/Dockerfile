@@ -15,5 +15,7 @@ COPY	tools/start-mariadb.sh /bin/
 # set permissions so that start-mariadb.sh is executable
 RUN		chmod +x /bin/start-mariadb.sh
 
+# run tini as entrypoint to set as PID 1 and reap zombies
+ENTRYPOINT ["tini", "--"]
 # run script as main process
 CMD		["start-mariadb.sh"]
