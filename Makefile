@@ -18,6 +18,10 @@ logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
 
 ssl-gen:
-	openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=yridgway.42.fr/UID=yridgway"
+	@if [ ! -f srcs/requirements/nginx/certs/inception.crt ] || [ ! -f srcs/requirements/nginx/certs/inception.key ]; then \
+		openssl req -x509 -nodes -out srcs/requirements/nginx/certs/inception.crt -keyout srcs/requirements/nginx/certs/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=yridgway.42.fr/UID=yridgway"; \
+	else \
+		echo "SSL certificate and key already exist."; \
+	fi
 
 .PHONY: all build up down logs ssl-gen
