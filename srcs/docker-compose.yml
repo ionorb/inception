@@ -5,8 +5,6 @@ services:
   nginx:
     build: ./requirements/nginx # build using Dockerfile in nginx folder
     container_name: nginx
-    # image: nginx
-    # entrypoint: ["/usr/bin/tini", "--"] # run tini as entrypoint to set as PID 1 and reap zombies
     networks: # connect to inter-docker network 'networky'
       - netyworky
     ports:
@@ -23,8 +21,6 @@ services:
   wordpress:
     build: ./requirements/wordpress # build using Dockerfile in wordpress folder
     container_name: wordpress
-    # image: wordpress
-    # entrypoint: ["/usr/bin/tini", "--"] # run tini as entrypoint to set as PID 1 and reap zombies
     networks: # connect to inter-docker network 'networky'
       - netyworky
     volumes:
@@ -39,8 +35,6 @@ services:
   mariadb:
     build: ./requirements/mariadb # build using Dockerfile in mariadb folder
     container_name: mariadb
-    # image: mariadb
-    # entrypoint: ["/usr/bin/tini", "--"] # run tini as entrypoint to set as PID 1 and reap zombies
     networks: # connect to inter-docker network 'networky'
       - netyworky
     volumes:
