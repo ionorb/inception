@@ -3,59 +3,60 @@ version: '3.8'
 # define all my services
 services:
   nginx:
-    build: ./requirements/nginx
+    build: ./requirements/nginx # build using Dockerfile in nginx folder
     container_name: nginx
     # image: nginx
-    networks:
+    networks: # connect to inter-docker network 'networky'
       - netyworky
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./requirements/nginx/certs/certs:/etc/nginx/certs
+      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf # mount nginx config file
+      - ./requirements/nginx/certs/certs:/etc/nginx/certs # mount folder containing ssl certificates
     restart: unless-stopped
-    env_file:
+    env_file: # set environment to variables in .env
       - .env
 
   wordpress:
-    build: ./requirements/wordpress
+    build: ./requirements/wordpress # build using Dockerfile in wordpress folder
     container_name: wordpress
     # image: wordpress
-    networks:
+    networks: # connect to inter-docker network 'networky'
       - netyworky
     volumes:
-      - wordpress-volume:/var/www/html/
+      - wordpress-volume:/var/www/html/ # mount docker managed volume
     restart: unless-stopped
-    env_file:
+    env_file: # set environment to variables in .env
       - .env
 
   mariadb:
-    build: ./requirements/mariadb
+    build: ./requirements/mariadb # build using Dockerfile in mariadb folder
     container_name: mariadb
     # image: mariadb
-    networks:
+    networks: # connect to inter-docker network 'networky'
       - netyworky
     volumes:
-      - mariadb-volume:/var/lib/mysql/
+      - mariadb-volume:/var/lib/mysql/ # mount docker managed volume
+      - ./requirements/mariadb/conf/my.cnf:/etc/mysql/mariadb.conf.d # mount mariadb config file
     restart: unless-stopped
-    env_file:
+    env_file: # set environment to variables in .env
       - .env
 
 # define docker managed volumes
-volumes:
+volumes: # volumes here are just bind mounts but take on the syntax of Docker named volumes
   wordpress-volume:
-    driver: local
+    driver: local # use default Docker volume driver (Docker managed volume)
     driver_opts: # driver options to create a volume in a specified directory
-      type: none
-      device: /home/yridgway/data/wordpress
-      o: bind
+      type: none # specify that the volume is not formatted with a filesystem
+      device: /home/yridgway/data/wordpress # location on the host to be mounted
+      o: bind # specify that it is a bind mount
 
   mariadb-volume:
-    driver: local
+    driver: local # use default Docker volume driver (Docker managed volume)
     driver_opts: # driver options to create a volume in a specified directory
-      type: none
-      device: /home/yridgway/data/mariadb
-      o: bind
+      type: none # specify that the volume is not formatted with a filesystem
+      device: /home/yridgway/data/mariadb # location on the host to be mounted
+      o: bind # specify that it is a bind mount
 
 # define network for the containers to communicate
 networks:
