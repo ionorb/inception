@@ -4,14 +4,10 @@ FROM	debian:bullseye
 # Expose MariaDB default port
 EXPOSE	3306
 
-# apt install -y --no-install-recommends --no-install-suggests \
-# install MariaDB
-RUN		apt update && \
-		apt install -y \
-		mariadb-server
-
-# remove apt package lists to reduce image size
-RUN		rm -rf /var/lib/apt/lists/* 
+# install MariaDB (and remove apt package lists to reduce image size)
+RUN		apt-get update && apt-get install -y \
+		mariadb-server && \
+		apt-get clean && rm -rf /var/lib/apt/lists/* 
 
 # COPY	conf/my.cnf /etc/mysql/mariadb.conf.d/
 

@@ -25,6 +25,7 @@ services:
       - netyworky
     volumes:
       - wordpress-volume:/var/www/html/ # mount docker managed volume
+      - ./conf/www.conf:/etc/php/7.4/fpm/pool.d/www.conf # mount php-fpm config file
     restart: unless-stopped
     env_file: # set environment to variables in .env
       - .env
