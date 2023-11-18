@@ -8,14 +8,12 @@ EXPOSE	3306
 RUN		apt-get update && apt-get install -y \
 		mariadb-server \
 		tini && \
-		apt-get clean && rm -rf /var/lib/apt/lists/* 
-
-# COPY	conf/my.cnf /etc/mysql/mariadb.conf.d/
+		apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # copy mariadb script to /bin/ on container filesystem
-COPY	tools/mariadb-script.sh /bin/
-# set permissions so that mariadb-script.sh is executable
-RUN		chmod +x /bin/mariadb-script.sh
+COPY	tools/start-mariadb.sh /bin/
+# set permissions so that start-mariadb.sh is executable
+RUN		chmod +x /bin/start-mariadb.sh
 
 # run script as main process
-CMD		["mariadb-script.sh", "mysqld_safe"]
+CMD		["start-mariadb.sh", "mysqld_safe"]

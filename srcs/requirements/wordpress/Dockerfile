@@ -42,12 +42,12 @@ RUN		wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.p
 		&& mv wp-cli.phar /usr/local/bin/wp
 
 # copy wordpress script to /bin/ on container filesystem
-COPY	./tools/wp-script.sh  /bin/
-# set permissions so that mariadb-script.sh is executable
-RUN		chmod +x /bin/wp-script.sh
+COPY	./tools/start-wordpress.sh  /bin/
+# set permissions so that start-wordpress.sh is executable
+RUN		chmod +x /bin/start-wordpress.sh
 
 # Set the working directory
 #WORKDIR /var/www/html/
 
 # run script as main process
-CMD ["wp-script.sh"]
+CMD ["start-wordpress.sh"]
