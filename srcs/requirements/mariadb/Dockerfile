@@ -16,4 +16,4 @@ COPY	tools/start-mariadb.sh /bin/
 RUN		chmod +x /bin/start-mariadb.sh
 
 # run script as main process
-CMD		["start-mariadb.sh", "mysqld_safe"]
+CMD		["start-mariadb.sh"]
