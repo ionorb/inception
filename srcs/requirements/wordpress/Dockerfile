@@ -17,7 +17,8 @@ RUN		apt-get update && apt-get install -y \
 		wget \
 		unzip \
 		default-mysql-server \
-		mariadb-client && \
+		mariadb-client \
+		tini && \
 		apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create directories for the php-fpm and server

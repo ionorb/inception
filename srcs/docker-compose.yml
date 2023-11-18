@@ -25,7 +25,7 @@ services:
       - netyworky
     volumes:
       - wordpress-volume:/var/www/html/ # mount docker managed volume
-      - ./conf/www.conf:/etc/php/7.4/fpm/pool.d/www.conf # mount php-fpm config file
+      - ./requirements/wordpress/conf/www.conf:/etc/php/7.4/fpm/pool.d/www.conf # mount php-fpm config file
     restart: unless-stopped
     env_file: # set environment to variables in .env
       - .env
@@ -38,7 +38,7 @@ services:
       - netyworky
     volumes:
       - mariadb-volume:/var/lib/mysql/ # mount docker managed volume
-      - ./requirements/mariadb/conf/my.cnf:/etc/mysql/mariadb.conf.d # mount mariadb config file
+      - ./requirements/mariadb/conf/my.cnf:/etc/mysql/mariadb.conf.d/my.cnf # mount mariadb config file
     restart: unless-stopped
     env_file: # set environment to variables in .env
       - .env

@@ -1,10 +1,13 @@
 # use penultimate version of debian as the base image
 FROM	debian:bullseye
 
-# install NGINX and openssl (and remove apt package lists to reduce image size)
+# install NGINX, openssl and tini (and remove apt package lists to reduce image size)
 RUN		apt-get update && apt-get install -y \
-		nginx vim curl && \
-		openssl && \
+		nginx \
+		vim \
+		curl \
+		openssl \
+		tini && \
 		apt-get clean && rm -rf /var/lib/apt/lists/* 
 
 # create directory to store ssl certificates
