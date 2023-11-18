@@ -1,6 +1,6 @@
 COMPOSE_FILE := srcs/docker-compose.yml
 
-all: build up
+all: ssl-gen build up
 
 build:
 	mkdir -p ~/data

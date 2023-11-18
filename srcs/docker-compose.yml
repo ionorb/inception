@@ -1,5 +1,6 @@
 version: '3.8'
 
+# define all my services
 services:
   nginx:
     build: ./requirements/nginx
@@ -40,21 +41,23 @@ services:
     env_file:
       - .env
 
+# define docker managed volumes
 volumes:
   wordpress-volume:
     driver: local
-    driver_opts:
+    driver_opts: # driver options to create a volume in a specified directory
       type: none
       device: /home/yridgway/data/wordpress
       o: bind
 
   mariadb-volume:
     driver: local
-    driver_opts:
+    driver_opts: # driver options to create a volume in a specified directory
       type: none
       device: /home/yridgway/data/mariadb
       o: bind
 
+# define network for the containers to communicate
 networks:
   netyworky:
     driver: bridge
