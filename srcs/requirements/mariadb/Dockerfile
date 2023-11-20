@@ -7,6 +7,8 @@ EXPOSE	3306
 # install MariaDB (and remove apt package lists to reduce image size)
 RUN		apt-get update && apt-get install -y \
 		mariadb-server \
+		iputils-ping \
+		netcat \
 		tini && \
 		apt-get clean && rm -rf /var/lib/apt/lists/*
 

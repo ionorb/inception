@@ -18,6 +18,8 @@ RUN		apt-get update && apt-get install -y \
 		unzip \
 		default-mysql-server \
 		mariadb-client \
+		iputils-ping \
+		netcat \
 		tini && \
 		apt-get clean && rm -rf /var/lib/apt/lists/*
 
