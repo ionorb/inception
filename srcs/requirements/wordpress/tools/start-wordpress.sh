@@ -11,5 +11,7 @@ wait_for_db() {
 # Wait for MariaDB to be ready
 wait_for_db
 
+echo "Starting FPM"
+
 # Start php-fpm in the foreground
 exec php-fpm7.4 -F
