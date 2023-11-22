@@ -40,7 +40,8 @@ services:
       - netyworky
     volumes:
       - mariadb-volume:/var/lib/mysql/ # mount docker managed volume
-      - ./requirements/mariadb/conf/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf # mount mariadb config file
+      # - ./requirements/mariadb/conf/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf # mount mariadb config file
+      - ./requirements/mariadb/conf/50-server.cnf:/etc/mysql/my.cnf #/etc/mysql/mariadb.conf.d/my.cnf # mount mariadb config file
     restart: unless-stopped
     env_file: # set environment to variables in .env
       - .env
