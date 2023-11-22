@@ -48,9 +48,6 @@ COPY	./tools/start-wordpress.sh  /bin/
 # set permissions so that start-wordpress.sh is executable
 RUN		chmod +x /bin/start-wordpress.sh
 
-# Set the working directory
-#WORKDIR /var/www/html/
-
 # run tini as entrypoint to set as PID 1 and reap zombies
 ENTRYPOINT ["tini", "--"]
 # run script as main process
