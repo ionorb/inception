@@ -28,8 +28,8 @@ RUN		apt-get update && apt-get install -y \
 # ...to read and execute files within the web directory
 RUN		mkdir -p /var/www/html/ && \
 		mkdir -p /run/php && \
-		chown -R www-data:www-data /var/www/* \
-		&& chmod -R 755 /var/www/*
+		chown -R www-data:www-data /var/www/html \
+		&& chmod -R 755 /var/www/html
 
 # Download and extract WordPress
 RUN		wget https://wordpress.org/latest.tar.gz && \
@@ -49,6 +49,6 @@ COPY	./tools/start-wordpress.sh  /bin/
 RUN		chmod +x /bin/start-wordpress.sh
 
 # run tini as entrypoint to set as PID 1 and reap zombies
-ENTRYPOINT ["tini", "--"]
+# ENTRYPOINT ["tini", "--"]
 # run script as main process
 CMD ["start-wordpress.sh"]

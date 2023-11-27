@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 
 # Function to check if MariaDB is ready
 wait_for_db() {
@@ -11,27 +12,24 @@ wait_for_db() {
 	echo "MariaDB up and running"
 }
 
-# Function to check if wordpress is installed
-check_for_wordpress() {
-	if ! $(su -s /bin/sh -c 'wp core is-installed --path="$WP_PATH"' www-data); then
-		# Install WordPress
-		su -s /bin/sh -c 'wp core install --url="yridgway.42.fr" --title="INCEPTION-WEBSITE" --admin_user="manager" --admin_password="password" --admin_email="yridgway@student.42.fr" --path="$WP_PATH"' www-data
-		# Create a second user
-		su -s /bin/sh -c 'wp user create yoel yoel@yridgway.42.fr --role=author --user_pass=password --path="$WP_PATH"' www-data
-	fi
-}
-
 # Wait for MariaDB to be ready
 wait_for_db
+sleep 30
 
-# export Path to WordPress
-export WP_PATH="/var/www/html"
+# Check if wp-config.php exists and create the file
+if [ ! -f "${WP_PATH}/wp-config.php" ]; then
+	echo "Creating wp-config.php..."
+	su -s /bin/sh -c "wp config create --dbname=${DB_NAME} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} --dbhost=mariadb:3306 --path=${WP_PATH}" www-data
+	chmod 644 ${WP_PATH}/wp-config.php
+fi
 
-# Create the wp-config.php file
-wp --allow-root config create --dbname=wordpress --dbuser=dbuser --dbpass=dbpass --dbhost=mariadb:3306 --path="$WP_PATH"
-
-# Check if WordPress is installed
-check_for_wordpress
+# Check if WordPress is installed and install
+if ! $(su -s /bin/sh -c "wp core is-installed --path=${WP_PATH}" www-data); then
+	# Install WordPress
+	su -s /bin/sh -c "wp core install --url=${DOMAIN_NAME} --title="INCEPTION-WEBSITE" --admin_user="manager" --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email="yridgway@student.42.fr" --path=${WP_PATH}" www-data
+	# Create a second user
+	su -s /bin/sh -c "wp user create yoel yoel@${DOMAIN_NAME} --role=author --user_pass=${MYSQL_PASSWORD} --path=${WP_PATH}" www-data
+fi
 
 # Start php-fpm in the foreground
 echo "Starting FPM"

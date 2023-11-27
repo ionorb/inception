@@ -14,10 +14,14 @@ RUN		apt-get update && apt-get install -y \
 
 # copy mariadb script to /bin/ on container filesystem
 COPY	tools/start-mariadb.sh /bin/
+
 # set permissions so that start-mariadb.sh is executable
-RUN		chmod +x /bin/start-mariadb.sh
+RUN		chmod +x /bin/start-mariadb.sh && \
+		chown -R mysql:mysql /var/log/mysql && \
+		chmod -R 755 /var/log/mysql
+
 
 # run tini as entrypoint to set as PID 1 and reap zombies
-ENTRYPOINT ["tini", "--"]
+# ENTRYPOINT ["tini", "--"]
 # run script as main process
 CMD		["start-mariadb.sh"]

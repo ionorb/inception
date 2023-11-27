@@ -41,7 +41,8 @@ services:
     volumes:
       - mariadb-volume:/var/lib/mysql/ # mount docker managed volume
       # - ./requirements/mariadb/conf/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf # mount mariadb config file
-      - ./requirements/mariadb/conf/50-server.cnf:/etc/mysql/my.cnf #/etc/mysql/mariadb.conf.d/my.cnf # mount mariadb config file
+      - ./requirements/mariadb/conf/my.cnf:/etc/mysql/my.cnf # mount mariadb config file
+      # - ./requirements/mariadb/tools/init-scripts:/docker-entrypoint-initdb.d/ # mount database initialization script
     restart: unless-stopped
     env_file: # set environment to variables in .env
       - .env

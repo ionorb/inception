@@ -20,6 +20,6 @@ RUN		chmod 755 /var/www/html
 RUN		chown -R www-data:www-data /var/www/html
 
 # run tini as entrypoint to set as PID 1 and reap zombies
-ENTRYPOINT ["tini", "--"]
+# ENTRYPOINT ["tini", "--"]
 # run nginx as sub process to tini
 CMD		["nginx", "-g", "daemon off;"]
