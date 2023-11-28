@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-
+cd ${WP_PATH}
 # Function to check if MariaDB is ready
 wait_for_db() {
 	echo "($?)" "Waiting for MariaDB..."
@@ -14,7 +14,7 @@ wait_for_db() {
 
 # Wait for MariaDB to be ready
 wait_for_db
-sleep 30
+sleep 10
 
 # Check if wp-config.php exists and create the file
 if [ ! -f "${WP_PATH}/wp-config.php" ]; then
@@ -22,6 +22,9 @@ if [ ! -f "${WP_PATH}/wp-config.php" ]; then
 	su -s /bin/sh -c "wp config create --dbname=${DB_NAME} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} --dbhost=mariadb:3306 --path=${WP_PATH}" www-data
 	chmod 644 ${WP_PATH}/wp-config.php
 fi
+
+# Set ownership so wordpress can add content
+chown -R www-data:www-data /var/www/html/*
 
 # Check if WordPress is installed and install
 if ! $(su -s /bin/sh -c "wp core is-installed --path=${WP_PATH}" www-data); then
