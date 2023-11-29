@@ -5,19 +5,19 @@ all: ssl-gen build up
 build:
 	mkdir -p /home/yridgway/data/mariadb
 	mkdir -p /home/yridgway/data/wordpress
-	docker compose -f $(COMPOSE_FILE) build
+	docker-compose -f $(COMPOSE_FILE) build
 
 up:
-	docker compose -f $(COMPOSE_FILE) up -d
+	docker-compose -f $(COMPOSE_FILE) up -d
 
 down:
-	docker compose -f $(COMPOSE_FILE) down
+	docker-compose -f $(COMPOSE_FILE) down
 
 logs:
-	docker compose -f $(COMPOSE_FILE) logs -f
+	docker-compose -f $(COMPOSE_FILE) logs -f
 
 clean:
-	docker compose -f $(COMPOSE_FILE) down -v
+	docker-compose -f $(COMPOSE_FILE) down -v
 	yes | docker image prune
 	yes | docker container prune
 	docker image rm srcs-mariadb; docker image rm srcs-wordpress; docker image rm srcs-nginx; echo "done"
