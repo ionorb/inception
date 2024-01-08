@@ -8,6 +8,7 @@
 !Dockerfile
 !Makefile
 !docker-compose.yml
+!.env.sample
 
 # Whitelist Directories
 !resources/**

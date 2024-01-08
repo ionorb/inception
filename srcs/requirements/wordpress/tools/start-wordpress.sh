@@ -29,9 +29,9 @@ chown -R www-data:www-data /var/www/html/*
 # Check if WordPress is installed and install
 if ! $(su -s /bin/sh -c "wp core is-installed --path=${WP_PATH}" www-data); then
 	# Install WordPress
-	su -s /bin/sh -c "wp core install --url=${DOMAIN_NAME} --title="INCEPTION-WEBSITE" --admin_user="manager" --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email="yridgway@student.42.fr" --path=${WP_PATH}" www-data
+	su -s /bin/sh -c "wp core install --url=${DOMAIN_NAME} --title="INCEPTION-WEBSITE" --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL} --path=${WP_PATH}" www-data
 	# Create a second user
-	su -s /bin/sh -c "wp user create yoel yoel@${DOMAIN_NAME} --role=author --user_pass=${MYSQL_PASSWORD} --path=${WP_PATH}" www-data
+	su -s /bin/sh -c "wp user create ${WP_USER} ${WP_USER}@${DOMAIN_NAME} --role=author --user_pass=${WP_PASSWORD} --path=${WP_PATH}" www-data
 fi
 
 # Start php-fpm in the foreground
