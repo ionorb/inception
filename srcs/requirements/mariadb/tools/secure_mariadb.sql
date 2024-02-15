@@ -1,15 +1,14 @@
 -- Set the root password
-UPDATE mysql.user SET Password=PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User='root';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 
 -- Remove anonymous users
-DELETE FROM mysql.user WHERE User='';
+DROP USER IF EXISTS ''@'localhost';
 
 -- Disallow root login remotely
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+-- DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 
 -- Drop the test database
 DROP DATABASE IF EXISTS test;
-DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 
 -- Create database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS `$DB_NAME`;
